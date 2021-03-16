@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mongoose.Core;
 
 namespace Mongoose.Core.Migrations
 {
     [DbContext(typeof(MongooseContext))]
-    partial class MongooseContextModelSnapshot : ModelSnapshot
+    [Migration("20210316174417_Initial_Migration_Video_Entities")]
+    partial class Initial_Migration_Video_Entities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

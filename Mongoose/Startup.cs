@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Mongoose.Core;
+using Mongoose.Service;
 using Mongoose.Utility;
 
 namespace Mongoose
@@ -29,9 +30,12 @@ namespace Mongoose
             var mapperConfig = new MapperConfiguration(cfg=>cfg.AddProfile<MongooseMapperProfile>());
             services.AddSingleton(mapperConfig.CreateMapper());
             services.AddControllersWithViews();
+            services.AddDirectoryBrowser();
             services.AddDbContext<MongooseContext>(
                 opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddRepositories();
+
+            services.AddScoped<IVideoFileService, VideoFileService>();
             // In production, the Angular files will be served from this directory
             //services.AddSpaStaticFiles(configuration =>
             //{
@@ -52,12 +56,19 @@ namespace Mongoose
             }
 
             app.UseStaticFiles();
+            app.UseDirectoryBrowser();
             //if (!env.IsDevelopment())
             //{
             //    app.UseSpaStaticFiles();
             //}
 
             app.UseRouting();
+
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<MongooseContext>();
+                context.Database.Migrate();
+            }
 
             app.UseEndpoints(endpoints =>
             {
