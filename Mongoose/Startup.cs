@@ -1,9 +1,15 @@
+using System;
+using System.IO;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Mongoose.Core;
 using Mongoose.Utility;
 
 namespace Mongoose
@@ -23,6 +29,9 @@ namespace Mongoose
             var mapperConfig = new MapperConfiguration(cfg=>cfg.AddProfile<MongooseMapperProfile>());
             services.AddSingleton(mapperConfig.CreateMapper());
             services.AddControllersWithViews();
+            services.AddDbContext<MongooseContext>(
+                opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddRepositories();
             // In production, the Angular files will be served from this directory
             //services.AddSpaStaticFiles(configuration =>
             //{
