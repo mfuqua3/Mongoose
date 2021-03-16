@@ -13,18 +13,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="GoogleCast" Version="1.6.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="wwwroot\Office\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="wwwroot\Office\**" />
+    <EmbeddedResource Remove="wwwroot\Office\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="wwwroot\Office\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\Mongoose.Core\Mongoose.Core.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

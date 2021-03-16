@@ -1,0 +1,43 @@
+<div class="modal-header">
+  <h4 class="modal-title">Assign File to Episode</h4>
+  <button type="button" class="close" aria-label="Close"
+          (click)="activeModal.dismiss('Cross click')">
+    x
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <label for="series">Select Series</label>
+    <select class="form-control" id="series" required (change)="onSeriesSelected()" [(ngModel)]="selectedSeries"
+            name="selectedSeries">
+      <option [value]="null">---Select a Series---</option>
+      <option *ngFor="let seriesItem of series" [ngValue]="seriesItem">{{seriesItem.name}}</option>
+    </select>
+  </div>
+  <div *ngIf="seasons">
+    <div class="form-group">
+      <label for="season">Select Season</label>
+      <select class="form-control" id="season" required [(ngModel)]="model.seasonId">
+        <option *ngFor="let season of seasons" [ngValue]="season.id">{{season.name}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="episodeTitle">Episode Title</label>
+      <input type="text" id="episodeTitle" class="form-control" [(ngModel)]="model.videoInfo.name">
+    </div>
+    <div class="form-group">
+      <label for="episodeNumber">Episode Number</label>
+      <input type="number" id="episodeNumber" class="form-control" [(ngModel)]="model.episodeNumber">
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" class="form-control" [(ngModel)]="model.videoInfo.description"
+                placeholder="description..."></textarea>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-secondary" (click)="onSubmit()" [disabled]="!seasons">
+    Submit
+  </button>
+</div>
