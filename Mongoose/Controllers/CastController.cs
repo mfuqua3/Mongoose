@@ -19,13 +19,13 @@ namespace Mongoose.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ILogger<CastController> _logger;
-        private readonly IVideoInfoRepository _videoInfoRepository;
+        private readonly IEpisodeRepository _episodeRepository;
 
-        public CastController(IMapper mapper, ILogger<CastController> logger, IVideoInfoRepository videoInfoRepository)
+        public CastController(IMapper mapper, ILogger<CastController> logger, IEpisodeRepository episodeRepository)
         {
             _mapper = mapper;
             _logger = logger;
-            _videoInfoRepository = videoInfoRepository;
+            _episodeRepository = episodeRepository;
         }
         [HttpGet("devices")]
         public async Task<IActionResult> GetDevices()
@@ -35,9 +35,10 @@ namespace Mongoose.Controllers
             return new JsonResult(deviceModels);
         }
         [HttpGet("connect/{id}")]
-        public async Task<IActionResult> Connect(string id, [FromQuery] int videoId)
+        public async Task<IActionResult> Connect(string id, [FromQuery] int episodeId)
         {
-            var videoInfo = await _videoInfoRepository.GetVideoInfo(videoId);
+            var episode = await _episodeRepository.GetEpisode(episodeId);
+            var videoInfo = episode?.VideoInfo;
             if (videoInfo == null)
             {
                 return BadRequest("The requested video could not be found");

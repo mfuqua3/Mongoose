@@ -27,6 +27,22 @@
           >
             <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
           </li>
+          <li
+            class="nav-item"
+            [routerLinkActive]="['link-active']"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <a class="nav-link text-dark" [routerLink]="['/admin']">Admin</a>
+          </li>
+          <li class="nav-item dropdown" *ngIf="receivers">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+              {{castService.activeReceiver?.friendlyName}}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a *ngFor="let receiver of receivers" (click)="selectReceiver(receiver)" class="dropdown-item">{{receiver.friendlyName}}</a>
+            </div>
+          </li>
         </ul>
       </div>
     </div>
