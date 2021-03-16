@@ -1,0 +1,25 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      The following files have been detected and need assignment.
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th width="85%" scope="col">
+            File Name
+          </th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let file of unmappedFiles">
+          <td> {{file.name}}</td>
+          <td><button (click)="openFormModal(file)" class="btn btn-primary">Assign</button> </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

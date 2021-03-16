@@ -1,0 +1,55 @@
+<div id="accordion">
+  <div *ngFor="let seriesItem of series" class="card">
+    <div class="card-header" [attr.id]="'heading'+seriesItem.name">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" [attr.data-target]="'#collapse'+seriesItem.name"
+                aria-expanded="false" [attr.aria-controls]="'collapse'+seriesItem.name"
+                (click)="loadSeasons(seriesItem)">
+          {{seriesItem.name}}
+        </button>
+      </h5>
+    </div>
+
+    <div [attr.id]="'collapse'+seriesItem.name" class="collapse show" [attr.aria-labelledby]="'heading'+seriesItem.name"
+         data-parent="#accordion">
+      <div class="card-body">
+        <div id="accordion2">
+          <div *ngFor="let season of seasons" class="card">
+            <div class="card-header" [attr.id]="'heading'+season.name">
+              <h5 class="mb-0">
+                <button class="btn btn-link" data-toggle="collapse" [attr.data-target]="'#collapse'+season.name"
+                        aria-expanded="false" [attr.aria-controls]="'collapse'+season.name"
+                        (click)="loadEpisodes(season)">
+                  {{season.name}}
+                </button>
+              </h5>
+            </div>
+            <div [attr.id]="'collapse'+season.name" class="collapse show" [attr.aria-labelledby]="'heading'+season.name"
+                 data-parent="#accordion2">
+              <div class="card-body" *ngIf="episodes">
+                <table class="table table-hover">
+                  <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let episode of episodes">
+                    <td>{{episode.episodeNumber}}</td>
+                    <td>{{episode.videoInfo.name}}</td>
+                    <td>{{episode.videoInfo.description}}</td>
+                    <td><a class="btn btn-primary" (click)="playEpisode(episode)">Play</a></td>
+                  </tr>
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
