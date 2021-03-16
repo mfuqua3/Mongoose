@@ -4,12 +4,10 @@ namespace Mongoose.Core.Entities
 {
     public class Episode
     {
-        public uint Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public uint SeasonId { get; set; }
+        public int Id { get; set; }
+        public short EpisodeNumber { get; set; }
+        public VideoInfo VideoInfo { get; set; }
+        public int SeasonId { get; set; }
         public Season Season { get; set; }
-        public string FilePath { get; set; }
-        public string IconPath { get; set; }
     }
 }

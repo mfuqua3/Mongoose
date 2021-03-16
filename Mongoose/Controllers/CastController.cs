@@ -8,6 +8,7 @@ using GoogleCast.Channels;
 using GoogleCast.Models.Media;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Mongoose.Core.Repository;
 using Mongoose.Models;
 
 namespace Mongoose.Controllers
@@ -18,11 +19,13 @@ namespace Mongoose.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ILogger<CastController> _logger;
+        private readonly IVideoInfoRepository _videoInfoRepository;
 
-        public CastController(IMapper mapper, ILogger<CastController> logger)
+        public CastController(IMapper mapper, ILogger<CastController> logger, IVideoInfoRepository videoInfoRepository)
         {
             _mapper = mapper;
             _logger = logger;
+            _videoInfoRepository = videoInfoRepository;
         }
         [HttpGet("devices")]
         public async Task<IActionResult> GetDevices()
@@ -32,8 +35,13 @@ namespace Mongoose.Controllers
             return new JsonResult(deviceModels);
         }
         [HttpGet("connect/{id}")]
-        public async Task<IActionResult> Connect(string id)
+        public async Task<IActionResult> Connect(string id, [FromQuery] int videoId)
         {
+            var videoInfo = await _videoInfoRepository.GetVideoInfo(videoId);
+            if (videoInfo == null)
+            {
+                return BadRequest("The requested video could not be found");
+            }
             var devices = await GetReceivers();
             var target = devices.FirstOrDefault(rcvr => rcvr.Id == id);
             if (target == null)
@@ -47,7 +55,7 @@ namespace Mongoose.Controllers
             var mediaStatus = await mediaChannel.LoadAsync(
                 new MediaInformation()
                 {
-                    ContentId = "",
+                    ContentId = $"http://192.168.0.119:5000/{videoInfo.FilePath}",
                     ContentType = "video/mp4",
                 });
             return Ok(mediaStatus);

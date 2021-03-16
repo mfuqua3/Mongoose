@@ -5,12 +5,13 @@ namespace Mongoose.Models
 {
     public class SeasonViewModel
     {
-        public uint Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         [Required]
-        public uint SeriesId { get; set; }
+        public int SeriesId { get; set; }
         [Required]
+        [Range(1, ushort.MaxValue, ErrorMessage = "Season number must be provided")]
         public ushort SeasonNumber { get; set; }
         public string IconPath { get; set; }
         public List<EpisodeViewModel> Episodes { get; set; }

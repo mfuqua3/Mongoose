@@ -4,12 +4,12 @@ namespace Mongoose.Models
 {
     public class EpisodeViewModel
     {
-        public uint Id { get; set; }
+        public int Id { get; set; }
+        public int SeasonId { get; set; }
         [Required]
-        public string Name { get; set; }
-        public string Description { get; set; }
+        [Range(1, short.MaxValue, ErrorMessage = "An episode number must be provided")]
+        public short EpisodeNumber { get; set; }
         [Required]
-        public uint SeasonId { get; set; }
-        public string IconPath { get; set; }
+        public VideoInfoViewModel VideoInfo { get; set; }
     }
 }

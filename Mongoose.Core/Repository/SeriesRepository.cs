@@ -30,7 +30,7 @@ namespace Mongoose.Core.Repository
             return await GetQuery(queryInject).FirstOrDefaultAsync(s => s.Name == name);
         }
 
-        public async Task<Series> GetSeriesById(uint id, QueryInject<Series> queryInject = null)
+        public async Task<Series> GetSeriesById(int id, QueryInject<Series> queryInject = null)
         {
             return await GetQuery(queryInject).FirstOrDefaultAsync(s => s.Id == id);
         }
@@ -38,6 +38,14 @@ namespace Mongoose.Core.Repository
         public async Task PostSeries(Series series)
         {
             await _context.AddAsync(series);
+        }
+
+        public async Task<bool> DeleteSeries(int id)
+        {
+            var series = await GetSeriesById(id);
+            if (series == null) return false;
+            _context.Series.Remove(series);
+            return true;
         }
 
         public async Task SaveChanges()

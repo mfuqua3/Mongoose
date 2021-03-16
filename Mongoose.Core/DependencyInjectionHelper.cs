@@ -7,7 +7,10 @@ namespace Mongoose.Core
     {
         public static IServiceCollection AddRepositories(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<ISeriesRepository, SeriesRepository>();
+            serviceCollection.AddScoped<ISeriesRepository, SeriesRepository>()
+                .AddScoped<IVideoInfoRepository, VideoInfoRepository>()
+                .AddScoped<IEpisodeRepository, EpisodeRepository>()
+                .AddScoped<ISeasonRepository, SeasonRepository>();
             return serviceCollection;
         }
     }
